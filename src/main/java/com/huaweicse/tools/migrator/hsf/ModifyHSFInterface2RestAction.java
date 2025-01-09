@@ -211,7 +211,7 @@ public class ModifyHSFInterface2RestAction extends FileAction {
               + ", consumes = \"x-application/hessian2\""
               + ")");
           tempStream.write(line.substring(0, line.indexOf("(") + 1));
-          tempStream.write(buildParameters(parameters, fileName, lineNumber));
+          tempStream.write(buildParameters(parameters, fileName, methodName, lineNumber));
           writeLine(tempStream, line.substring(line.indexOf(")")));
           continue;
         }
@@ -232,7 +232,7 @@ public class ModifyHSFInterface2RestAction extends FileAction {
                 + ", consumes = \"x-application/hessian2\""
                 + ")");
             tempStream.write(line.substring(0, line.indexOf("(") + 1));
-            tempStream.write(buildParameters(parameters, fileName, lineNumber));
+            tempStream.write(buildParameters(parameters, fileName, methodName, lineNumber));
             writeLine(tempStream, line.substring(line.indexOf(")")));
             lineNumber++;
             continue;
@@ -261,7 +261,7 @@ public class ModifyHSFInterface2RestAction extends FileAction {
     }
   }
 
-  public static String buildParameters(Parameter[] parameters, String fileName, int lineNumber) {
+  public static String buildParameters(Parameter[] parameters, String fileName, String methodName, int lineNumber) {
     StringBuilder result = new StringBuilder();
     int bodyCount = 0;
     for (int i = 0; i < parameters.length; i++) {
@@ -284,7 +284,7 @@ public class ModifyHSFInterface2RestAction extends FileAction {
       }
     }
     if (bodyCount > 1) {
-      LOGGER.error("File has too many body parameters {} {}.", fileName, lineNumber);
+      LOGGER.error("File has too many body parameters {} {} {}.", fileName, methodName, lineNumber);
     }
     return result.toString();
   }
@@ -349,7 +349,7 @@ public class ModifyHSFInterface2RestAction extends FileAction {
 
   private static String checkName(String name, String fileName, int lineNumber) {
     if (URL_NAMES.contains(name)) {
-      LOGGER.error("override method detected " + fileName + " " + lineNumber);
+        LOGGER.error("override method detected {} {} line {}", fileName, name, lineNumber);
     }
     URL_NAMES.add(name);
     return name;
