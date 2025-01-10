@@ -101,7 +101,7 @@ public class ModifyHSFProviderAction extends FileAction {
                 i);
             continue;
           }
-          writeLine(tempStream, "@RestController");
+          writeLine(tempStream, "@org.springframework.web.bind.annotation.RestController");
           writeLine(tempStream, "@org.springframework.context.annotation.Lazy");
           writeLine(tempStream,
               "@RequestMapping(\"/" + interfaceName.substring(0, 1).toLowerCase() + interfaceName.substring(1) + "\")");
